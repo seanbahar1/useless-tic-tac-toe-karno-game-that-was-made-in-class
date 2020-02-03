@@ -4,10 +4,10 @@ import os
 clear = lambda: os.system('cls')
 class gameBoard:
     def __init__(self):
-        self.__board = ([8,8,8,8],
-                        [8,8,8,8],
-                        [8,8,8,8],
-                        [8,8,8,8])
+        self.__board = (["█","█","█","█"],
+                        ["█","█","█","█"],
+                        ["█","█","█","█"],
+                        ["█","█","█","█"])
         self.turn = True
         self.gameOn = True
         self.loc = {
@@ -117,7 +117,7 @@ class gameBoard:
         tie = True
         for y in range(0,4):
             for x in range(0,4):
-                if self.__board[y][x] == 8:
+                if self.__board[y][x] == "█":
                     tie = False
                 
         if tie:
