@@ -1,6 +1,9 @@
 #-- this game is a weird tic tac toe hybrid with karno map
 #-- this trash code is copyrighted by me sean...... useless class time hahahaha....
 import os
+import cv2
+import numpy as np
+from time import sleep
 clear = lambda: os.system('cls')
 class gameBoard:
     def __init__(self):
@@ -10,6 +13,12 @@ class gameBoard:
                         ["█","█","█","█"])
         self.turn = True
         self.gameOn = True
+        self.win_height = 500
+        self.win_width = 500
+        #-- blank image to edit
+        self.blank_image = np.zeros((self.win_height,self.win_width,3), np.uint8)
+        self.win_name = "Game Window"
+        cv2.namedWindow(self.win_name)
         self.loc = {
             0 :  (0,0),
             1 :  (0,1),
@@ -127,13 +136,34 @@ class gameBoard:
             return False
 
         return False
+    def mouseEvent_update_board_data(self, event, x, y, flags, param):
+        if event == cv2.EVENT_LBUTTONDBLCLK:
+            mouseX,mouseY = x,y
+            print(mouseX, mouseY)
+            #-- need to figure what box was clicked and eck if can place then place
+            sleep(0.2)
+        pass
+    def draw_game_window(self):
+        #-- drawing grid
+        disty =int( self.win_height / 4)
+        distx =int( self.win_width / 4)
+        for index in range(1,4):
+            #-- x grid
+            cv2.line(self.blank_image,(0,index*disty),(self.win_width,index*disty),(0,0,200),1)
+            #-- y grid
+            cv2.line(self.blank_image,(index*distx,0),(index*distx,self.win_height),(0,0,200),1)
+        pass
 
 game = gameBoard()
 print('please enter a num between 0-15, you must know how to work with karno map to play  this game cause it works with the rules of karno\n gl learning how to play')
 while(game.gameOn):
     #-- game is running
-    game.printboard()
-    game.get_inp()
-    #clear()
+    #game.printboard()
+    #game.get_inp()
+    game.draw_game_window()
+    cv2.imshow(game.win_name,game.blank_image)
+    cv2.setMouseCallback(game.win_name, game.mouseEvent_update_board_data)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
         
 game.printboard()
