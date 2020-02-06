@@ -142,17 +142,38 @@ class gameBoard:
             print(mouseX, mouseY)
             #-- need to figure what box was clicked and eck if can place then place
             sleep(0.2)
+            self.tranform_mouseXYclick_to_index(x,y)
         pass
     def draw_game_window(self):
         #-- drawing grid
-        disty =int( self.win_height / 4)
-        distx =int( self.win_width / 4)
+        disty =  int( self.win_height / 4 )
+        distx =  int( self.win_width  / 4 )
         for index in range(1,4):
             #-- x grid
             cv2.line(self.blank_image,(0,index*disty),(self.win_width,index*disty),(0,0,200),1)
             #-- y grid
             cv2.line(self.blank_image,(index*distx,0),(index*distx,self.win_height),(0,0,200),1)
         pass
+    def tranform_mouseXYclick_to_index(self,x,y):
+        #-- checking x index
+        sizex =self.win_width  / 4 
+        sizey =self.win_width  / 4 
+        xIndex =0
+        xfound = False
+        yIndex =0
+        yfound = False
+        for square in range(1,5):
+            if xfound == yfound == True:
+                break
+            if x < int(square* sizex) and xfound==False:
+                xIndex = square
+                xfound = True
+            if y < int(square* sizey) and yfound==False:
+                yIndex = square
+                yfound = True
+
+        print(xIndex,yIndex)
+                
 
 game = gameBoard()
 print('please enter a num between 0-15, you must know how to work with karno map to play  this game cause it works with the rules of karno\n gl learning how to play')
